@@ -8,6 +8,8 @@ import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import store from './store'
+import { Title, BigTitle, StyledLink } from './App.styles'
+
 
 class App extends Component {
 
@@ -63,7 +65,8 @@ class App extends Component {
             <Route exact path="/bookmarks" render={(props) => (
               this.token ? (
                 <Fragment>
-                  <h4>Welcome { tokenDetails.email }!</h4>
+                  <StyledLink to="/foo">Hello from my link!</StyledLink>
+                  <BigTitle>Welcome { tokenDetails.email }!</BigTitle>
                   <p>You logged in at: { new Date(tokenDetails.iat * 1000).toLocaleString() }</p>
                   <p>Your token expires at: { new Date(tokenDetails.exp * 1000).toLocaleString() }</p>
                   <button onClick={this.handleSignOut}>Logout</button>
