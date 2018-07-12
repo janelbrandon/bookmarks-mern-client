@@ -8,51 +8,8 @@ import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
 import store from './store'
-import styled, { injectGlobal, css } from 'styled-components'
-
-const phone = (content) => css`
-  @media (max-width: 800px) {
-    ${content}
-  }
-`
-
-const pad = (size=0.5) => css`
-  padding: ${size}rem;
-`
-
-const border = css`
-  border: 2px solid ${p => p.border || '#f00'};
-`
-
-const StyledLink = styled(Link)`
-  color: palevioletred;
-  font-weight: bold;
-`
-
-const Heading = styled.h4`
-  ${border}
-  ${pad()}
-  ${phone`
-    background: red;
-  `}
-`
-
-const BlueHeading = Heading.extend`
-  color: #00f;
-  font-weight: 700;
-`
-
-injectGlobal`
-  body {
-    font-family: cursive;
-  }
-`
 
 class App extends Component {
-  // state = {
-  //   bookmarks: [],
-  //   loginError: null
-  // }
 
   get token() {
     return localStorage.getItem('token')
@@ -83,23 +40,12 @@ class App extends Component {
     api.get('/auth/logout').then(() => {
       localStorage.removeItem('token')
       store.dispatch({ type: 'set_bookmarks', bookmarks: [] })
-      //this.forceUpdate()
     })
   }
-
-  // remove = (id) => { // id = Mongo _id of the bookmark
-  //     const index = store.getState().bookmarks.findIndex(bookmark => bookmark._id === id)
-  //     if (index >= 0) {
-  //       const bookmarks = [...store.getState().bookmarks]
-  //       bookmarks.splice(index, 1)
-  //       store.dispatch({ type: 'set_bookmarks', bookmarks })
-  //     }
-  // }
 
   render() {
     console.log(store.getState())
     const tokenDetails = this.token && decodeJWT(this.token)
-    // const { bookmarks } = store.getState()
     const { bookmarks } = store.getState() || []
     return (
       <div className="App">
@@ -117,8 +63,7 @@ class App extends Component {
             <Route exact path="/bookmarks" render={(props) => (
               this.token ? (
                 <Fragment>
-                  <StyledLink to="/bar">Hello!</StyledLink>
-                  <BlueHeading border="#0f0">Welcome { tokenDetails.email }!</BlueHeading>
+                  <h4>Welcome { tokenDetails.email }!</h4>
                   <p>You logged in at: { new Date(tokenDetails.iat * 1000).toLocaleString() }</p>
                   <p>Your token expires at: { new Date(tokenDetails.exp * 1000).toLocaleString() }</p>
                   <button onClick={this.handleSignOut}>Logout</button>
