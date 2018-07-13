@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Create an axios instance
 const api = axios.create({
-  baseURL: 'https://bookmarks-mern-server.herokuapp.com/' // API server
+  baseURL: 'https://localhost:3000' // API server
 })
 
 // Add the bearer token to the axios instance
