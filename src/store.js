@@ -25,6 +25,9 @@ const reducer = (state, action) => {
       case "reset_state":
         return initialState
   		default:
+        if ( !action.type.match(/@@redux.*/) ) {
+          console.log(`Redux: Action not recognized: ${action.type}`)
+      }
   		  return state
   }
 }

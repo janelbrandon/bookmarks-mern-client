@@ -1,18 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
 import decodeJWT from 'jwt-decode'
 import { api, setJwt } from './api/init'
 import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
-import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import store from './store'
 
 class App extends Component {
-  state = {
-    bookmarks: [],
-    loginError: null
-  }
 
   get token() {
     return localStorage.getItem('token')
@@ -20,6 +15,27 @@ class App extends Component {
 
   set token(value) {
     localStorage.setItem('token', value)
+  }
+
+  setBookmarksAction = (bookmarks) => {
+    return {
+      type: 'set_bookmarks',
+      bookmarks: bookmarks
+    }
+  }
+
+  setLoginErrorAction (loginError) {
+    return {
+      type: 'set_loginError',
+      loginError: loginError
+    }
+  }
+
+  deleteBookmarksAction (id) {
+    return {
+      type: 'delete_bookmark',
+      id: id
+    }
   }
 
   handleSignIn = async (event) => {
@@ -33,32 +49,30 @@ class App extends Component {
       this.token = response.data.token
       setJwt(response.data.token)
       this.fetchBookmarks()
-      //this.forceUpdate()
     } catch (error) {
-      this.setState({ loginError: error.message })
+      store.dispatch(this.setLoginErrorAction(error.message))
     }
   }
 
   handleSignOut = (event) => {
     api.get('/auth/logout').then(() => {
       localStorage.removeItem('token')
-      this.setState({ bookmarks: [] })
-      //this.forceUpdate()
+      store.dispatch(this.setBookmarksAction([]))
     })
   }
 
   remove = (id) => { // id = Mongo _id of the bookmark
-      const index = this.state.bookmarks.findIndex(bookmark => bookmark._id === id)
+      const index = store.getState().bookmarks.findIndex(bookmark => bookmark._id === id)
       if (index >= 0) {
-        const bookmarks = [...this.state.bookmarks]
+        const bookmarks = [...store.getState().bookmarks]
         bookmarks.splice(index, 1)
-        this.setState({ bookmarks })
+        store.dispatch(this.setBookmarksAction(bookmarks))
       }
   }
 
   render() {
     const tokenDetails = this.token && decodeJWT(this.token)
-    const { bookmarks } = this.state
+    const { bookmarks } = store.getState()
     return (
       <div className="App">
       {
@@ -68,7 +82,7 @@ class App extends Component {
               if (this.token) {
                 return (<Redirect to="/bookmarks"/>)
               } else {
-                return (<SignIn loginError={this.state.loginError} handleSignIn={this.handleSignIn} />)
+                return (<SignIn loginError={store.getState().loginError} handleSignIn={this.handleSignIn} />)
               }
             }
             } />
@@ -109,12 +123,12 @@ class App extends Component {
   async fetchBookmarks() {
     try {
       const bookmarks = await api.get('/bookmarks')
-      this.setState({ bookmarks: bookmarks.data })
+      store.dispatch(this.setBookmarksAction(bookmarks.data))
     }
     catch(error) {
       alert('Can\'t get bookmarks!')
     }
-  } 
+  }
 }
 
 
