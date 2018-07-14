@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bookmark should render as we expect 1`] = `
+<li>
+  My bookmark
+   (
+  <a
+    href="http://bookmark.com"
+    target="_blank"
+  >
+    Visit
+  </a>
+  )
+  <button
+    onClick={[Function]}
+  >
+    Delete!
+  </button>
+</li>
+`;
