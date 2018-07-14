@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.51% </span>
+        <span class="strong">18.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/37</span>
+        <span class='fraction'>5/27</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">20% </span>
+        <span class="strong">25% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/10</span>
+        <span class='fraction'>2/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">18.75% </span>
+        <span class="strong">23.08% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/16</span>
+        <span class='fraction'>3/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">13.89% </span>
+        <span class="strong">18.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/36</span>
+        <span class='fraction'>5/27</span>
       </div>
     </div>
     <p class="quiet">
@@ -167,21 +167,8 @@
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
 <a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a>
-<a name='L127'></a><a href='#L127'>127</a>
-<a name='L128'></a><a href='#L128'>128</a>
-<a name='L129'></a><a href='#L129'>129</a>
-<a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L122'></a><a href='#L122'>122</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -245,11 +232,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,20 +278,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -324,6 +296,7 @@ import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import store from './store'
+import {fetchBookmarks, removeBookmark} from './services/BookmarkService'
 &nbsp;
 class App extends Component {
 &nbsp;
@@ -366,7 +339,7 @@ class App extends Component {
       })
 <span class="cstat-no" title="statement not covered" >      this.token = response.data.token</span>
 <span class="cstat-no" title="statement not covered" >      setJwt(response.data.token)</span>
-<span class="cstat-no" title="statement not covered" >      this.fetchBookmarks()</span>
+<span class="cstat-no" title="statement not covered" >      fetchBookmarks()</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >      store.dispatch(this.setLoginErrorAction(error.message))</span>
     }
@@ -379,21 +352,16 @@ class App extends Component {
     })
   }
 &nbsp;
-  remove = <span class="fstat-no" title="function not covered" >(i</span>d) =&gt; { // id = Mongo _id of the bookmark
-      const index = <span class="cstat-no" title="statement not covered" >store.getState().bookmarks.findIndex(<span class="fstat-no" title="function not covered" >bo</span>okmark =&gt; <span class="cstat-no" title="statement not covered" >bookmark._id === id)</span></span>
-<span class="cstat-no" title="statement not covered" >      if (index &gt;= 0) {</span>
-        const bookmarks = <span class="cstat-no" title="statement not covered" >[...store.getState().bookmarks]</span>
-<span class="cstat-no" title="statement not covered" >        bookmarks.splice(index, 1)</span>
-<span class="cstat-no" title="statement not covered" >        store.dispatch(this.setBookmarksAction(bookmarks))</span>
-      }
-  }
+  // remove = (id) =&gt; { // id = Mongo _id of the bookmark
+  //   removeBookmark(id)
+  // }
 &nbsp;
   render() {
     const tokenDetails = this.token &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >decodeJWT(this.token)</span>
     const { bookmarks } = store.getState()
     return (
       &lt;div className="App"&gt;
-      {
+&nbsp;
         &lt;Router&gt;
           &lt;Fragment&gt;
             &lt;Route exact path="/login" render={<span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; {
@@ -415,7 +383,7 @@ class App extends Component {
                   &lt;ul&gt;
                   {
                     bookmarks.map(
-<span class="fstat-no" title="function not covered" >                      bo</span>okmark =&gt; <span class="cstat-no" title="statement not covered" >&lt;Bookmark key={bookmark._id} {...bookmark} remove={this.remove} /&gt;</span>
+<span class="fstat-no" title="function not covered" >                      bo</span>okmark =&gt; <span class="cstat-no" title="statement not covered" >&lt;Bookmark key={bookmark._id} {...bookmark}  /&gt;</span>
                     )
                   }
                   &lt;/ul&gt;
@@ -426,7 +394,6 @@ class App extends Component {
             )}/&gt;
             &lt;/Fragment&gt;
         &lt;/Router&gt;
-        }
       &lt;/div&gt;
     );
   }
@@ -434,19 +401,10 @@ class App extends Component {
   componentDidMount() {
     <span class="missing-if-branch" title="if path not taken" >I</span>if (this.token) {
 <span class="cstat-no" title="statement not covered" >      setJwt(this.token)</span>
-<span class="cstat-no" title="statement not covered" >      this.fetchBookmarks()</span>
+<span class="cstat-no" title="statement not covered" >      fetchBookmarks()</span>
     }
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  as</span>ync fetchBookmarks() {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const bookmarks = <span class="cstat-no" title="statement not covered" >await api.get('/bookmarks')</span>
-<span class="cstat-no" title="statement not covered" >      store.dispatch(this.setBookmarksAction(bookmarks.data))</span>
-    }
-    catch(error) {
-<span class="cstat-no" title="statement not covered" >      alert('Can\'t get bookmarks!')</span>
-    }
-  }
 }
 &nbsp;
 &nbsp;
@@ -457,7 +415,7 @@ export default App;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jul 15 2018 07:56:50 GMT+1000 (AEST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jul 15 2018 08:35:52 GMT+1000 (AEST)
 </div>
 </div>
 <script src="../prettify.js"></script>

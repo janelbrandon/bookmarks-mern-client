@@ -6,6 +6,7 @@ import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import store from './store'
+import {fetchBookmarks, removeBookmark} from './services/BookmarkService'
 
 class App extends Component {
 
@@ -48,7 +49,7 @@ class App extends Component {
       })
       this.token = response.data.token
       setJwt(response.data.token)
-      this.fetchBookmarks()
+      fetchBookmarks()
     } catch (error) {
       store.dispatch(this.setLoginErrorAction(error.message))
     }
@@ -61,21 +62,16 @@ class App extends Component {
     })
   }
 
-  remove = (id) => { // id = Mongo _id of the bookmark
-      const index = store.getState().bookmarks.findIndex(bookmark => bookmark._id === id)
-      if (index >= 0) {
-        const bookmarks = [...store.getState().bookmarks]
-        bookmarks.splice(index, 1)
-        store.dispatch(this.setBookmarksAction(bookmarks))
-      }
-  }
+  // remove = (id) => { // id = Mongo _id of the bookmark
+  //   removeBookmark(id)
+  // }
 
   render() {
     const tokenDetails = this.token && decodeJWT(this.token)
     const { bookmarks } = store.getState()
     return (
       <div className="App">
-      {
+
         <Router>
           <Fragment>
             <Route exact path="/login" render={(props) => {
@@ -97,7 +93,7 @@ class App extends Component {
                   <ul>
                   {
                     bookmarks.map(
-                      bookmark => <Bookmark key={bookmark._id} {...bookmark} remove={this.remove} />
+                      bookmark => <Bookmark key={bookmark._id} {...bookmark}  />
                     )
                   }
                   </ul>
@@ -108,7 +104,6 @@ class App extends Component {
             )}/>
             </Fragment>
         </Router>
-        }
       </div>
     );
   }
@@ -116,19 +111,10 @@ class App extends Component {
   componentDidMount() {
     if (this.token) {
       setJwt(this.token)
-      this.fetchBookmarks()
+      fetchBookmarks()
     }
   }
 
-  async fetchBookmarks() {
-    try {
-      const bookmarks = await api.get('/bookmarks')
-      store.dispatch(this.setBookmarksAction(bookmarks.data))
-    }
-    catch(error) {
-      alert('Can\'t get bookmarks!')
-    }
-  }
 }
 
 
