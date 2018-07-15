@@ -14,6 +14,7 @@ const fetchBookmarks = async () => {
 }
 
 const removeBookmark = (id) =>  {
+  console.log(`real removeBookmark called with ${id}`)
   const index = store.getState().bookmarks.findIndex(bookmark => bookmark._id === id)
   if (index >= 0) {
     //ToDo: Add call to delete the bookmark from the server

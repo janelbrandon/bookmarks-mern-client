@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1531617843833" clover="3.2.0">
-  <project timestamp="1531617843833" name="All files">
-    <metrics statements="94" coveredstatements="20" conditionals="50" coveredconditionals="6" methods="47" coveredmethods="9" elements="191" coveredelements="35" complexity="0" loc="94" ncloc="94" packages="4" files="11" classes="11">
+<coverage generated="1531618895553" clover="3.2.0">
+  <project timestamp="1531618895553" name="All files">
+    <metrics statements="94" coveredstatements="20" conditionals="50" coveredconditionals="6" methods="47" coveredmethods="9" elements="191" coveredelements="35" complexity="0" loc="94" ncloc="94" packages="4" files="12" classes="12">
       <package name="src">
         <metrics statements="72" coveredstatements="10" conditionals="46" coveredconditionals="4" methods="38" coveredmethods="5"/>
         <file name="App.js" path="/home/caadmin/class/bookmarks-mern-client-start/bookmarks-mern-client/src/App.js">
@@ -75,6 +75,9 @@
           <line num="137" count="0" type="cond" truecount="0" falsecount="4"/>
           <line num="138" count="0" type="stmt"/>
           <line num="139" count="0" type="cond" truecount="0" falsecount="2"/>
+        </file>
+        <file name="setupTests.js" path="/home/caadmin/class/bookmarks-mern-client-start/bookmarks-mern-client/src/setupTests.js">
+          <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         </file>
         <file name="store.js" path="/home/caadmin/class/bookmarks-mern-client-start/bookmarks-mern-client/src/store.js">
           <metrics statements="15" coveredstatements="5" conditionals="13" coveredconditionals="2" methods="2" coveredmethods="1"/>
