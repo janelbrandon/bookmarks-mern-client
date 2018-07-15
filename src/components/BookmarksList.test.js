@@ -1,11 +1,12 @@
 import React from 'react'
-import Bookmark from './Bookmark'
+import BookmarksList from './BookmarksList'
 import renderer from 'react-test-renderer'
 
-describe('Bookmark', () => {
+
+describe('BookmarksList', () => {
   it('should render as we expect', () => {
     const tree = renderer.create(
-    <Bookmark _id='123' title='My bookmark' url='http://bookmark.com' remove={() =>{}}/>
+    <BookmarksList bookmarks={[{_id:'123',title:'My Bookmark',url:'http://mybookmark.com'}]}/>
     )
     expect(tree.toJSON()).toMatchSnapshot()
   })

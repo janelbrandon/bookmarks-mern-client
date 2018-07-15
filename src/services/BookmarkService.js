@@ -2,9 +2,10 @@ import store from '../store'
 import {setBookmarksAction} from '../actions'
 import {api} from '../api/init'
 
-async function fetchBookmarks () {
+const fetchBookmarks = async () => {
   try {
     const bookmarks = await api.get('/bookmarks')
+    console.log(bookmarks.data)
     store.dispatch(setBookmarksAction(bookmarks.data))
   }
   catch(error) {
@@ -12,7 +13,7 @@ async function fetchBookmarks () {
   }
 }
 
-function removeBookmark (id)  {
+const removeBookmark = (id) =>  {
   const index = store.getState().bookmarks.findIndex(bookmark => bookmark._id === id)
   if (index >= 0) {
     //ToDo: Add call to delete the bookmark from the server

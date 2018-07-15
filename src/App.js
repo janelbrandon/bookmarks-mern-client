@@ -2,11 +2,11 @@ import React, { Component, Fragment } from 'react';
 import './App.css';
 import decodeJWT from 'jwt-decode'
 import { api, setJwt } from './api/init'
-import Bookmark from './components/Bookmark'
 import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import store from './store'
-import {fetchBookmarks, removeBookmark} from './services/BookmarkService'
+import {fetchBookmarks} from './services/BookmarkService'
+import BookmarksList from './components/BookmarksList'
 
 class App extends Component {
 
@@ -68,7 +68,6 @@ class App extends Component {
 
   render() {
     const tokenDetails = this.token && decodeJWT(this.token)
-    const { bookmarks } = store.getState()
     return (
       <div className="App">
 
@@ -89,14 +88,7 @@ class App extends Component {
                   <p>You logged in at: { new Date(tokenDetails.iat * 1000).toLocaleString() }</p>
                   <p>Your token expires at: { new Date(tokenDetails.exp * 1000).toLocaleString() }</p>
                   <button onClick={this.handleSignOut}>Logout</button>
-                  <h1>Bookmarks</h1>
-                  <ul>
-                  {
-                    bookmarks.map(
-                      bookmark => <Bookmark key={bookmark._id} {...bookmark}  />
-                    )
-                  }
-                  </ul>
+                  <BookmarksList bookmarks={store.getState().bookmarks}/>
                 </Fragment>
               ) : (
                 <Redirect to="/login"/>
