@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignIn should render as expected 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <p>
+    There was an error
+  </p>
+  <label>
+    Email: 
+    <input
+      name="email"
+      type="email"
+    />
+  </label>
+  <br />
+  <label>
+    Password: 
+    <input
+      name="password"
+      type="password"
+    />
+  </label>
+  <br />
+  <button
+    type="submit"
+  >
+    Login
+  </button>
+</form>
+`;

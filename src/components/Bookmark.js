@@ -5,7 +5,7 @@ function Bookmark (props) {
   return (
     <li>
       {title} (<a href={url} target="_blank">Visit</a>)
-      <button onClick={ () => remove(_id) }>Delete!</button>
+      <button onClick={ () => remove(_id) }>Delete</button>
     </li>
   )
 }
