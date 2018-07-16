@@ -18,17 +18,9 @@ describe('Bookmark', () => {
     )
     expect(tree.toJSON()).toMatchSnapshot()
   })
-  // function MySpy () {
-  //   this.calls=0
-  // }
-  // MySpy.prototype.fn = function () {
-  //   return () => this.calls++
-  // }
-  it('should call removeBookmark when delete button is clicked', () => {
-    // const spy = new MySpy()
-    // const stub = spy.fn()
+
+  it('should call remove with correct argument when delete button is clicked', () => {
     const _id='123'
-    //const spy = sinon.spy()
     const removeBookmarkStub = jest.fn((id) => {
       console.log(`in removeBookmarkStub with ${id}`)
       return id
@@ -45,8 +37,17 @@ describe('Bookmark', () => {
     //btn.simulate('click')
     //expect(removeBookmarkStub).not.toHaveBeenCalled()
     expect(removeBookmarkStub).toBeCalledWith(_id)
-    //expect(spy).toHaveBeenCalledTimes(1)
-    //expect(spy.calledOnce).to.equal(true)
   })
 
+  it('should call removeBookmark in BookmarkService', () => {
+    const _id='123'
+    const wrapper = shallow (
+      <Bookmark _id={_id} title='My bookmark' url='http://bookmark.com'  />
+    )
+
+    let btn = wrapper.find('button')
+    expect(btn).toHaveLength(1)
+    expect(btn.text()).toEqual('Delete!')
+    btn.prop('onClick')()
+  })
 })
