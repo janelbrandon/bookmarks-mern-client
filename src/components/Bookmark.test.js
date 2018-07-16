@@ -2,6 +2,7 @@ import React from 'react'
 import Bookmark from './Bookmark'
 import renderer from 'react-test-renderer'
 import {shallow, mount} from 'enzyme'
+import sinon from 'sinon'
 
 jest.mock('../services/BookmarkService')
 
@@ -17,17 +18,24 @@ describe('Bookmark', () => {
     )
     expect(tree.toJSON()).toMatchSnapshot()
   })
-
+  // function MySpy () {
+  //   this.calls=0
+  // }
+  // MySpy.prototype.fn = function () {
+  //   return () => this.calls++
+  // }
   it('should call removeBookmark when delete button is clicked', () => {
+    // const spy = new MySpy()
+    // const stub = spy.fn()
     const _id='123'
-    const removeBookmarkStub = jest.fn()
-    // const removeBookmarkStub = jest.fn((id) => {
-    //   console.log(`removeBookmarkStub called with ${id}`)
-    //   return Promise.resolve(id)
-    // })
+    //const spy = sinon.spy()
+    const removeBookmarkStub = jest.fn((id) => {
+      console.log(`in removeBookmarkStub with ${id}`)
+      return id
+    })
 
     const wrapper = shallow (
-      <Bookmark _id={_id} title='My bookmark' url='http://bookmark.com' onClick={removeBookmarkStub} />
+      <Bookmark _id={_id} title='My bookmark' url='http://bookmark.com' remove={removeBookmarkStub} />
     )
 
     let btn = wrapper.find('button')
@@ -35,8 +43,10 @@ describe('Bookmark', () => {
     expect(btn.text()).toEqual('Delete!')
     btn.prop('onClick')()
     //btn.simulate('click')
-    expect(removeBookmarkStub).not.toHaveBeenCalled()
-    //expect(removeBookmarkStub).toBeCalledWith(_id)
+    //expect(removeBookmarkStub).not.toHaveBeenCalled()
+    expect(removeBookmarkStub).toBeCalledWith(_id)
+    //expect(spy).toHaveBeenCalledTimes(1)
+    //expect(spy.calledOnce).to.equal(true)
   })
 
 })
