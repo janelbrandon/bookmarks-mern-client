@@ -6,6 +6,7 @@ import SignIn from './components/SignIn'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import store from './store'
 import BookmarkList from './components/BookmarkList'
+import {setBookmarksAction,setLoginErrorAction} from './actions'
 
 class App extends Component {
 
@@ -15,27 +16,6 @@ class App extends Component {
 
   set token(value) {
     localStorage.setItem('token', value)
-  }
-
-  setBookmarksAction = (bookmarks) => {
-    return {
-      type: 'set_bookmarks',
-      bookmarks: bookmarks
-    }
-  }
-
-  setLoginErrorAction (loginError) {
-    return {
-      type: 'set_loginError',
-      loginError: loginError
-    }
-  }
-
-  deleteBookmarksAction (id) {
-    return {
-      type: 'delete_bookmark',
-      id: id
-    }
   }
 
   handleSignIn = async (event) => {
@@ -50,14 +30,14 @@ class App extends Component {
       setJwt(response.data.token)
       this.fetchBookmarks()
     } catch (error) {
-      store.dispatch(this.setLoginErrorAction(error.message))
+      store.dispatch(setLoginErrorAction(error.message))
     }
   }
 
   handleSignOut = (event) => {
     api.get('/auth/logout').then(() => {
       localStorage.removeItem('token')
-      store.dispatch(this.setBookmarksAction([]))
+      store.dispatch(setBookmarksAction([]))
     })
   }
 
@@ -66,7 +46,7 @@ class App extends Component {
       if (index >= 0) {
         const bookmarks = [...store.getState().bookmarks]
         bookmarks.splice(index, 1)
-        store.dispatch(this.setBookmarksAction(bookmarks))
+        store.dispatch(setBookmarksAction(bookmarks))
       }
   }
 
@@ -116,7 +96,7 @@ class App extends Component {
   async fetchBookmarks() {
     try {
       const bookmarks = await api.get('/bookmarks')
-      store.dispatch(this.setBookmarksAction(bookmarks.data))
+      store.dispatch(setBookmarksAction(bookmarks.data))
     }
     catch(error) {
       alert('Can\'t get bookmarks!')
